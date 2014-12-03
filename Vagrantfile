@@ -12,19 +12,43 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000,
     auto_correct: true
 
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "4096"]
-    vb.customize ["modifyvm", :id, "--cpus", "4"]
-    vb.customize ["modifyvm", :id, "--ioapic", "on"]
+  config.vm.define "a", primary: true do |node|
+    node.vm.network "private_network", ip: "192.168.50.5"
+
+    node.vm.provision :shell do |shell|
+      shell.inline = "puppet module install garethr-docker"
+    end
+
+    node.vm.provision "puppet" do |puppet|
+      puppet.manifests_path = "puppet/manifests"
+      puppet.options = "--verbose --debug"
+    end
   end
 
-  config.vm.provision :shell do |shell|
-    shell.inline = "puppet module install garethr-docker"
+  config.vm.define "b", primary: false, autostart: false do |node|
+    node.vm.network "private_network", ip: "192.168.50.6"
+
+    node.vm.provision :shell do |shell|
+      shell.inline = "puppet module install garethr-docker"
+    end
+
+    node.vm.provision "puppet" do |puppet|
+      puppet.manifests_path = "puppet/manifests"
+      puppet.options = "--verbose --debug"
+    end
   end
 
-  config.vm.provision "puppet" do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.options = "--verbose --debug"
+  config.vm.define "c", primary: false, autostart: false do |node|
+    node.vm.network "private_network", ip: "192.168.50.6"
+
+    node.vm.provision :shell do |shell|
+      shell.inline = "puppet module install garethr-docker"
+    end
+
+    node.vm.provision "puppet" do |puppet|
+      puppet.manifests_path = "puppet/manifests"
+      puppet.options = "--verbose --debug"
+    end
   end
 
 end
