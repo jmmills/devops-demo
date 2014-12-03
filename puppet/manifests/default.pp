@@ -8,6 +8,10 @@ class { 'docker':
 class demo::install {
   require docker
 
+  service { 'firewalld': 
+    ensure => 'stopped'
+  }
+
   package { 'bash-completion': 
     ensure => 'latest'
   }
