@@ -1,7 +1,7 @@
 class demo::install {
   require docker
 
-  yum { 'bash-completion': 
+  package { 'bash-completion': 
     ensure => 'latest'
   }
 
@@ -13,17 +13,17 @@ class demo::install {
 class demo {
   require demo::install
 
-  docker::run { 'shipyard-rethinkdb':
+  docker::run { 'rethinkdb':
     image => 'shipyard/rethinkdb:latest',
-    ports => ['49153', '49154', '49155'],
+    ports => ['49153:49153', '49154:49154', '49155:49155'],
     expose => ['49153', '49154', '49155'],
     memory_limit => 100m,
     restart_service => true,
     use_name  => true,
   }->docker::run { 'shipyard':
     image => 'shipyard/shipyard:latest',
-    links => ['shipyard-rethinkdb:rethinkdb'],
-    ports => ['8080'],
+    links => ['rethinkdb:rethinkdb'],
+    ports => ['8080:8080'],
     expose => ['8080'],
     memory_limit => 100m,
     use_name  => true,
