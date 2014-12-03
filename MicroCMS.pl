@@ -284,7 +284,7 @@ body {
 @@ index.html.ep
 %= include 'default';
 
-Version 1.1.0
+Version 1.1.0<br/><br/>
 
 For demo please use the following details:<br>
 Email <b>admin@myproject.com</b>, Password: <b>admin</b><br>
