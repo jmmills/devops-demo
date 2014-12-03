@@ -12,9 +12,6 @@ class demo::install {
     ensure => 'latest'
   }
 
-  docker::image { 'ubuntu':
-    image_tag => 'latest'
-  }
 }
 
 class demo {
