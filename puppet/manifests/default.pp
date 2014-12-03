@@ -1,3 +1,5 @@
+Package { allow_virtual => true }
+
 class { 'docker':
   tcp_bind => 'tcp://0.0.0.0:2375',
   socket_bind => 'unix:///var/run/docker.sock',
