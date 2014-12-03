@@ -14,3 +14,4 @@ ADD MicroCMS.pl /
 RUN chmod +x /MicroCMS.pl
 
 ENTRYPOINT ["/MicroCMS.pl"]
+CMD ["daemon"]
